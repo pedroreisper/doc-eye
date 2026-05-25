@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/pedroreisper/doc-eye/schemas/report-v1.json",
+  "title": "doc-eye audit report v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_file",
+    "rendered_pages",
+    "audited_pages",
+    "audit_timestamp",
+    "model",
+    "verdict",
+    "summary_counts",
+    "document_findings",
+    "page_findings"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "doc-eye-report-v1" },
+    "source_file":    { "type": "string" },
+    "rendered_pages": { "type": "integer", "minimum": 0 },
+    "audited_pages":  { "type": "integer", "minimum": 0 },
+    "audit_timestamp": { "type": "string", "format": "date-time" },
+    "model": { "type": "string" },
+    "verdict": {
+      "type": "string",
+      "enum": ["CLEAN", "FINDINGS_PRESENT", "PARTIAL", "AUDIT_FAILED"]
+    },
+    "summary_counts": {
+      "type": "object",
+      "required": ["critical", "warning", "info"],
+      "properties": {
+        "critical": { "type": "integer", "minimum": 0 },
+        "warning":  { "type": "integer", "minimum": 0 },
+        "info":     { "type": "integer", "minimum": 0 }
+      }
+    },
+    "document_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "severity", "pages", "description"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["FORMATTING", "TYPOGRAPHY", "COLOUR", "CONTENT", "LAYOUT", "VISUAL_COHERENCE"]
+          },
+          "subcategory": { "type": "string" },
+          "severity":    { "type": "string", "enum": ["critical", "warning", "info"] },
+          "pages":       { "type": "array", "items": { "type": "integer", "minimum": 1 } },
+          "description": { "type": "string" },
+          "location":    { "type": "string" },
+          "quoted_text": { "type": "string" },
+          "occurrences": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "page_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["page", "findings"],
+        "properties": {
+          "page":     { "type": "integer", "minimum": 1 },
+          "findings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["category", "severity", "description"],
+              "properties": {
+                "category":    { "type": "string" },
+                "subcategory": { "type": "string" },
+                "severity":    { "type": "string" },
+                "location":    { "type": "string" },
+                "description": { "type": "string" },
+                "quoted_text": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "skipped_pages": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 1 }
+    },
+    "usage": {
+      "type": "object",
+      "properties": {
+        "input_tokens":  { "type": "integer", "minimum": 0 },
+        "output_tokens": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}
