@@ -186,7 +186,7 @@ doc-eye/
 
 Two things especially valuable:
 
-1. **Fixtures** — add a `.docx` or `.pdf` with a known defect to `examples/` and a corresponding expected-finding note. Helps regression-test prompt changes.
+1. **Fixtures** — add a `.docx`, `.pptx` or `.pdf` with a known defect to `examples/` plus an `expected.md` finding note. See [`examples/README.md`](examples/README.md) for the layout. Helps regression-test prompt changes.
 2. **New categories or sub-categories** — propose via issue. Edits to the category set are a breaking change to the report schema (bump version).
 
 ## License
